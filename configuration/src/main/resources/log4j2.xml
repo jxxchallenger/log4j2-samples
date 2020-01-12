@@ -19,7 +19,8 @@
     </Scripts>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - ${sys:hello} ${GroovyFilter} %msg%n" />
+            <!-- <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - ${sys:hello} ${GroovyFilter} %msg%n" /> -->
+            <PatternLayout pattern="%d{DEFAULT} [%t] %-5level %logger{36} - ${sys:hello} ${GroovyFilter} %class %msg%n" />
             <!-- <JsonLayout></JsonLayout> -->
         </Console>
         
@@ -41,8 +42,8 @@
             <SizeBasedTriggeringPolicy size="50 MB"/>
         </RollingFile>
         
-        <RollingRandomAccessFile name="RollingRandomAccessFile" fileName="logs/app.log" immediateFlush="false" filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"></PatternLayout>
+        <RollingRandomAccessFile name="RollingRandomAccessFile" fileName="logs/app.rolling.random.log" immediateFlush="false" filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} %class - %msg%n" charset="UTF-8" ></PatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy />
                 <SizeBasedTriggeringPolicy size="50 MB"/>
