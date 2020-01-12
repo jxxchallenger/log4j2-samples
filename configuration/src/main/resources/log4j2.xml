@@ -35,6 +35,11 @@
         <RandomAccessFile name="random" fileName="logs/app.random.log" immediateFlush="false">
             <JsonLayout></JsonLayout>
         </RandomAccessFile>
+        
+        <RollingFile name="RollingFile" fileName="logs/app.rolling.log" immediateFlush="false" filePattern="logs/$${date:yyyy-MM}/app-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+            <SizeBasedTriggeringPolicy size="50MB"/>
+        </RollingFile>
     </Appenders>
     <Loggers>
         <Logger name="io.jxxchallenger" level="trace" additivity="false">
