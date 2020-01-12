@@ -1,19 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="WARN" monitorInterval="30">
+<Configuration status="WARN" monitorInterval="30" shutdownTimeout="120">
     <!-- Properties元素必须在  Loggers, Filters, Appenders前面 -->
     <!-- Properites用来设置默认属性, 如果无法在指定的查找中找到该值，则将使用默认属性映射中的值。 -->
     <!-- 例如${sys:hello}在System properties中无法找到hello属性的值，将使用Properties元素中定义的默认值 -->
     <Properties>
         <Property name="hello">world</Property>
     </Properties>
+    <Scripts>
+        <Script name="GroovyFilter" language="groovy"><![CDATA[
+            if(System.getProperty("os.name").startsWith("Windows")) {
+                return "F:/logs/";
+            }
+            else {
+                return "/home/logs/";
+            }
+            ]]>
+          </Script>
+    </Scripts>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - ${sys:hello} %msg%n" />
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - ${sys:hello} ${GroovyFilter} %msg%n" />
+            <!-- <JsonLayout></JsonLayout> -->
         </Console>
+        
+        <File name="MyFile" fileName="logs/app.log">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+        </File>
+        <Async name="Async">
+            <AppenderRef ref="MyFile"/>
+        </Async>
     </Appenders>
     <Loggers>
         <Logger name="io.jxxchallenger" level="trace" additivity="false">
             <AppenderRef ref="Console" />
+            <AppenderRef ref="Async"></AppenderRef>
         </Logger>
         <Root level="error">
             <AppenderRef ref="Console" />
