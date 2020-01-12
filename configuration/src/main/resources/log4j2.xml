@@ -31,6 +31,10 @@
         <Async name="Async">
             <AppenderRef ref="MyFile"/>
         </Async>
+        
+        <RandomAccessFile name="random" fileName="logs/app.random.log" immediateFlush="false">
+            <JsonLayout></JsonLayout>
+        </RandomAccessFile>
     </Appenders>
     <Loggers>
         <Logger name="io.jxxchallenger" level="trace" additivity="false">
